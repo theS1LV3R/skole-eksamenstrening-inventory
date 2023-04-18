@@ -2,16 +2,26 @@
     <H1>Admin site</H1>
 </div>
 
-
 <table>
     <thead>
-        User
+        <tr>User</tr>
+        <tr>Role</tr>
+        <tr>Delete</tr>
     </thead>
     <tbody> 
     {{#each users}}
-
-{{this.name}}
-{{/each}} 
+    <tr>
+        <td>{{this.name}}</td>
+        <td><select>{{#select role}}
+            <option value="1">Disabled</option>
+            <option value="2">Student</option>
+            <option value="3">Teacher</option>
+            <option value="4">Admin</option>
+            {{/select}}
+            </select></td>
+        <td><button {{action 'deluser'}}>Delete User</button></td>
+    </tr>
+    {{/each}} 
     </tbody>
 </table>
 

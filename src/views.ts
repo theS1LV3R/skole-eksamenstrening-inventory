@@ -8,17 +8,19 @@ export default function views(prisma: PrismaClient): Router {
   const router = Router();
 
   router.get("/", async (req, res) => {
-    const types = await prisma.itemType.findMany();
+    const types = await prisma.itemType.findMany({ orderBy: { id: 'asc' } });
     const itemCounts: Record<ItemType['name'], number> = {}
 
-    types.forEach(async (type) => {
-      const items = await prisma.item.findMany({ where: { type } })
-      itemCounts[type.name] = items.length
-    })
+    // Promise.all + .map to make sure the requests are done before the page gets rendered
+    await Promise.all(
+      types.map(async (type) => {
+        const items = await prisma.item.findMany({ where: { type } })
+        itemCounts[type.name] = items.length
+      }))
 
-    const pageData: (typeof types[number] & { count: number })[] = []
+    const pageData: (typeof types[number] & { count: number })[] =  []
     types.forEach(type => {
-      pageData.push({ ...type, count: itemCounts[type.name] })
+      pageData.push({ ...type, count: itemCounts[type.name] ?? 0 })
     })
 
     return res.render("FrontPage", { items: pageData })

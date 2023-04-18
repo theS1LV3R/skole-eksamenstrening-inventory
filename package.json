@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "tsc && shx cp -r src/public dist && shx cp -r src/views dist",
     "test": "echo \"Error: no test specified\" && exit 1",
     "debug": "ts-node src/main.ts",
     "postinstall": "prisma generate"
@@ -28,6 +29,7 @@
     "express-session": "^1.17.3",
     "hbs": "^4.2.0",
     "prisma": "^4.12.0",
+    "shx": "^0.3.4",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
   },

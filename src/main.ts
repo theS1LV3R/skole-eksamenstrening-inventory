@@ -27,6 +27,7 @@ async function main() {
   app.engine("handlebars", engine());
   app.set("view engine", "handlebars");
   app.set("views", path.resolve(__dirname, "views"));
+  app.use(express.static(path.resolve(__dirname, "public")))
 
   app.use("/api", api(prisma));
   app.use("/", views(prisma));
