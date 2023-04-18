@@ -110,6 +110,7 @@ model RequestedExtension {
 model User {
   id            Int       @id @default(autoincrement())
   name          String // Username
+  full_name     String
   active        Boolean   @default(true) // Whether the user can login
   requests      Request[] // Requests the user have made
   password_hash String // Passordet
