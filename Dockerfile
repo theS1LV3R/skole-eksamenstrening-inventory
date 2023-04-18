@@ -6,6 +6,7 @@ WORKDIR /app
 #Install package json
 COPY package.json .
 COPY package-lock.json .
+COPY prisma .
 
 # Install any needed packages specified in package.json
 RUN npm install
@@ -14,12 +15,13 @@ RUN npm install
 COPY . /app
 
 # Builds the typescrpit into somthing that can be read
-RUN npm build
+RUN npm run build
 
 FROM node:lts-alpine
 WORKDIR /app
 COPY --from=builder /app/package.json /app
 COPY --from=builder /app/package-lock.json /app
+COPY --from=builder /app/prisma /app
 
 RUN npm install --omit=dev
 
