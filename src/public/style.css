@@ -1,0 +1,110 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: rgb(200, 153, 234);
+    }
+    
+    *{
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        text-decoration: none;
+    }
+    
+    .sidebar {
+        position: fixed;
+        left: 0;
+        width: 250px;
+        height: 100%;
+        background: #8577ad;
+    }
+    
+    .sidebar header {
+        font-size: 22px;
+        color: rgb(255, 255, 255);
+        text-align: center;
+        line-height: 70px;
+        background: #28074b;
+        user-select: none;
+    }
+    
+    .sidebar ul a{
+        display: block;
+        height: 100%;
+        width: 100%;
+        line-height: 65px;
+        font-size: 20px;
+        color: white;
+        padding-left: 40px;
+        box-sizing: border-box;
+        border-top: 1px solid rgba(255, 255, 255, .1);
+        border-bottom: 1px solid black;
+        transition: .4s;
+    }
+    
+    ul li:hover a{
+        padding-left: 50px;
+    }
+    
+    .sidebar ul a i{
+        margin-right: 16px;
+    }
+    
+    
+    .center{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 400px;
+        background: white;
+        border-radius: 10px;
+    }
+    
+    .center h1{
+        text-align: center;
+        padding: 0 0 20px 0;
+        border-bottom: 1px solid silver;
+    }
+    
+    .center form{
+        padding: 0 40px;
+        box-sizing: border-box;
+    }
+    
+    form .txt_field{
+        position: relative;
+        border-bottom: 2px solid #adadad;
+        margin: 30px 0;
+    }
+    
+    .txt_field input{
+        width: 100%;
+        padding: 0 5px;
+        height: 40px;
+        font-size: 16px;
+        border: none;
+        background: none;
+        outline: none;
+    }
+    
+    .txt_field label{
+        position: absolute;
+        top: 50%;
+        left: 5px;
+        color: #adadad;
+        transform: translateY(-50);
+        font-size: 16px;
+        pointer-events: none;
+    
+    }
+    
+    .txt_field span::before{
+        content: '';
+        position: absolute;
+        top: 40px;
+        left: 0;
+    }
+    
+    
+    
+    
