@@ -24,10 +24,11 @@ model ItemExtensions {
 
 // Sense:Hat, Bit:Bot, etc
 model ItemExtensionTypes {
-  id                   Int                  @id @default(autoincrement())
-  name                 String
-  extension_items      ItemExtensions[]
-  requested_extensions RequestedExtension[]
+  id                 Int                  @id @default(autoincrement())
+  name               String
+  extension_items    ItemExtensions[]
+  extension_requests RequestedExtension[]
+  imageUrl           String?
 }
 
 // RPi2, RPi3, Arduino, etc
@@ -36,7 +37,8 @@ model ItemType {
   name            String
   extension_items ItemExtensions[]
   items           Item[]
-  RequestedItems  RequestedItems[]
+  item_requests   RequestedItems[]
+  imageUrl        String?
 }
 
 // Spesific items, e.g. pavlova, fiskesuppe, etc
