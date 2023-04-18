@@ -2,7 +2,6 @@ import path from "node:path";
 //import all npm packages
 import express from "express";
 import session from "express-session";
-import bettersqlite from "better-sqlite3";
 import api from "./api";
 import views from "./views";
 import dotenv from "dotenv";

@@ -1,6 +1,8 @@
 
 import { PrismaClient, ItemType } from "@prisma/client";
 import { Router } from "express";
+import { LoginRequest, ReqWithBody } from "./types";
+import { compare } from "bcrypt";
 
 export default function views(prisma: PrismaClient): Router {
   const router = Router();
@@ -51,5 +53,4 @@ export default function views(prisma: PrismaClient): Router {
   });
 
   return router;
-
 }

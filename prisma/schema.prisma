@@ -1,0 +1,129 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Spesific extension items, Sense:Hat 1, 2, and 3 for example
+model ItemExtensions {
+  id Int @id @default(autoincrement())
+
+  item_type_id Int
+  item_type    ItemType @relation(fields: [item_type_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  extension_type_id Int
+  extension_type    ItemExtensionTypes @relation(fields: [extension_type_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([id])
+  @@index([item_type_id])
+  @@index([extension_type_id])
+}
+
+// Sense:Hat, Bit:Bot, etc
+model ItemExtensionTypes {
+  id                   Int                  @id @default(autoincrement())
+  name                 String
+  extension_items      ItemExtensions[]
+  requested_extensions RequestedExtension[]
+}
+
+// RPi2, RPi3, Arduino, etc
+model ItemType {
+  id              Int              @id @default(autoincrement())
+  name            String
+  extension_items ItemExtensions[]
+  items           Item[]
+  RequestedItems  RequestedItems[]
+}
+
+// Spesific items, e.g. pavlova, fiskesuppe, etc
+model Item {
+  id      Int      @id @default(autoincrement())
+  name    String
+  type_id Int
+  type    ItemType @relation(fields: [type_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([type_id])
+}
+
+// 0 = Pending
+// 1 = Approved
+// 2 = Denied
+// 3 = Returned
+model RequestStatus {
+  id       Int       @id @default(autoincrement())
+  name     String
+  requests Request[]
+}
+
+model Request {
+  id      Int  @id @default(autoincrement())
+  user_id Int
+  user    User @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  approved_date DateTime?
+  duration      String? // Amount of days the request is approved for, before it has to be delivered back, or null if no return date
+
+  // What items and extension types the user requested
+  requested_extensions RequestedExtension[] // 1-to-many relation
+  requested_items      RequestedItems[] // 1-to-many relation
+
+  status_id Int
+  status    RequestStatus @relation(fields: [status_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([status_id])
+  @@index([user_id])
+}
+
+model RequestedItems {
+  id     Int @id @default(autoincrement())
+  amount Int
+
+  item_type_id Int
+  item_type    ItemType @relation(fields: [item_type_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  request_id Int
+  request    Request @relation(fields: [request_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([item_type_id])
+  @@index([request_id])
+}
+
+model RequestedExtension {
+  id     Int @id @default(autoincrement())
+  amount Int
+
+  request_id Int
+  request    Request @relation(fields: [request_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  extension_type_id Int
+  extension_type    ItemExtensionTypes @relation(fields: [extension_type_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([extension_type_id])
+  @@index([request_id])
+}
+
+// Each user
+model User {
+  id            Int       @id @default(autoincrement())
+  name          String // Username
+  full_name     String
+  active        Boolean   @default(true) // Whether the user can login
+  requests      Request[] // Requests the user have made
+  password_hash String // Passordet
+
+  role_id Int      @default(0) // The role the user has
+  role    UserRole @relation(fields: [role_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([role_id])
+  @@index([active])
+}
+
+model UserRole {
+  id    Int    @id @default(autoincrement())
+  name  String
+  users User[]
+}
