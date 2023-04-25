@@ -1,4 +1,3 @@
-
 import { PrismaClient, ItemType } from "@prisma/client";
 import { Router } from "express";
 import { LoginRequest, ReqWithBody } from "./types";
@@ -8,25 +7,24 @@ export default function views(prisma: PrismaClient): Router {
   const router = Router();
 
   router.get("/", async (req, res) => {
-    const types = await prisma.itemType.findMany({ orderBy: { id: 'asc' } });
-    const itemCounts: Record<ItemType['name'], number> = {}
+    const types = await prisma.itemType.findMany({ orderBy: { id: "asc" } });
+    const itemCounts: Record<ItemType["name"], number> = {};
 
     // Promise.all + .map to make sure the requests are done before the page gets rendered
     await Promise.all(
       types.map(async (type) => {
-        const items = await prisma.item.findMany({ where: { type } })
-        itemCounts[type.name] = items.length
-      }))
+        const items = await prisma.item.findMany({ where: { type } });
+        itemCounts[type.name] = items.length;
+      })
+    );
 
-    const pageData: (typeof types[number] & { count: number })[] =  []
-    types.forEach(type => {
-      pageData.push({ ...type, count: itemCounts[type.name] ?? 0 })
-    })
+    const pageData: ((typeof types)[number] & { count: number })[] = [];
+    types.forEach((type) => {
+      pageData.push({ ...type, count: itemCounts[type.name] ?? 0 });
+    });
 
-    return res.render("FrontPage", { items: pageData })
-  })
-
-
+    return res.render("FrontPage", { items: pageData });
+  });
 
   router.post("/login", async (req: ReqWithBody<LoginRequest>, res) => {
     const user = await prisma.user.findFirst({

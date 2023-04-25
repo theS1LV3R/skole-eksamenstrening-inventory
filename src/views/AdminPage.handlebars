@@ -1,28 +1,26 @@
 <div>
-    <H1>Admin site</H1>
+  <H1>Admin site</H1>
 </div>
 
 <table>
-    <thead>
-        <tr>User</tr>
-        <tr>Role</tr>
-        <tr>Delete</tr>
-    </thead>
-    <tbody> 
+  <thead>
+    <tr>User</tr>
+    <tr>Role</tr>
+    <tr>Delete</tr>
+  </thead>
+  <tbody>
     {{#each users}}
-    <tr>
+      <tr>
         <td>{{this.name}}</td>
         <td><select>{{#select role}}
-            <option value="1">Disabled</option>
-            <option value="2">Student</option>
-            <option value="3">Teacher</option>
-            <option value="4">Admin</option>
+              <option value="1">Disabled</option>
+              <option value="2">Student</option>
+              <option value="3">Teacher</option>
+              <option value="4">Admin</option>
             {{/select}}
-            </select></td>
-        <td><button {{action 'deluser'}}>Delete User</button></td>
-    </tr>
-    {{/each}} 
-    </tbody>
+          </select></td>
+        <td><button {{action "deluser"}}>Delete User</button></td>
+      </tr>
+    {{/each}}
+  </tbody>
 </table>
-
-
