@@ -13,3 +13,15 @@ declare module "express-session" {
     user_id: User["id"];
   }
 }
+
+declare module "express-serve-static-core" {
+  interface Locals {
+    user: User | undefined | null;
+  }
+}
+
+export type RegisterRequest = {
+  username: string;
+  fullname: string;
+  password: string;
+};

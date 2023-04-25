@@ -1,7 +1,7 @@
 import { PrismaClient, ItemType } from "@prisma/client";
 import { Router } from "express";
-import { LoginRequest, ReqWithBody } from "./types";
-import { compare } from "bcrypt";
+import { LoginRequest, RegisterRequest, ReqWithBody } from "./types";
+import { compare, compareSync, hash } from "bcrypt";
 
 export default function views(prisma: PrismaClient): Router {
   const router = Router();
@@ -26,21 +26,59 @@ export default function views(prisma: PrismaClient): Router {
     return res.render("FrontPage", { items: pageData });
   });
 
+  router.get("/register", async (req, res) => {
+    const users = await prisma.user.findMany();
+
+    return res.render("Register", { firstUser: !users.length });
+  });
+
+  router.post("/register", async (req: ReqWithBody<RegisterRequest>, res) => {
+    const users = await prisma.user.findMany();
+    const isAdmin = !users;
+    const body = req.body;
+
+    if (!body.fullname || !body.password || !body.username)
+      return res.render("Register");
+
+    if (users.find((user) => user.username === body.username))
+      return res.render("/register", { usernameTaken: true });
+
+    const newUser = await prisma.user.create({
+      data: {
+        username: body.username,
+        full_name: body.fullname,
+        password_hash: await hash(body.password, 10000),
+        role_id: isAdmin ? 3 : 0,
+      },
+    });
+
+    req.session.user_id = newUser.id;
+    return res.redirect("/");
+  });
+
+  router.get("/login", async (req, res) => {
+    const users = await prisma.user.findMany();
+
+    if (!users) return res.redirect(307, "/register");
+
+    res.render("Login");
+  });
+
   router.post("/login", async (req: ReqWithBody<LoginRequest>, res) => {
     const user = await prisma.user.findFirst({
-      where: { name: req.body.username },
+      where: { username: req.body.username },
     });
 
     if (!user) {
       return res
         .status(400)
-        .redirect("/login?status=invalid_username_password");
+        .render("Login", { invalidUsernameOrPassword: true });
     }
 
-    if (!(await compare(req.body.password, user.password_hash))) {
+    if (!compareSync(req.body.password, user.password_hash)) {
       return res
         .status(400)
-        .redirect("/login?status=invalid_username_password");
+        .render("Login", { invalidUsernameOrPassword: true });
     }
 
     req.session.user_id = user.id;

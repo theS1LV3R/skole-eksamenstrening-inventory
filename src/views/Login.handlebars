@@ -1,0 +1,31 @@
+<div class="center">
+
+  <form method="post">
+    <center><img src="pavlovaIconWhite.png" height="8%" /></center>
+    <h1> Logg inn bitch!</h1>
+    <div class="txt_field">
+      <input name="username" type="text" placeholder="Username" id="username" />
+      <span></span>
+    </div>
+    <div class="txt_field">
+      <input
+        name="password"
+        type="password"
+        placeholder="Password"
+        id="password"
+      />
+      <span></span>
+    </div>
+    <input type="submit" value="Login" />
+    <div class="signup_link">
+      Har du ikke bruker?
+      <a href="/register">Registrer deg her!</a></div>
+  </form>
+
+  {{#if invalidUsernameOrPassword}}
+    <div class="error invalid-username-or-assword">
+      <h1>Error!</h1>
+      <p>Invalid username or password, dumbass</p>
+    </div>
+  {{/if}}
+</div>

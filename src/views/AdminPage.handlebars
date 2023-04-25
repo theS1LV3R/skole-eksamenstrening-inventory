@@ -1,7 +1,7 @@
 <div>
   <H1>Admin site</H1>
 </div>
-
+<h2>Users</h2>
 <table>
   <thead>
     <tr>User</tr>
@@ -9,7 +9,7 @@
     <tr>Delete</tr>
   </thead>
   <tbody>
-    {{#each users}}
+    {{#each User}}
       <tr>
         <td>{{this.name}}</td>
         <td><select>{{#select role}}
@@ -19,8 +19,36 @@
               <option value="4">Admin</option>
             {{/select}}
           </select></td>
-        <td><button {{action "deluser"}}>Delete User</button></td>
+        <td><button {{action "deluser"}}><img src="../../public/trash.svg"></button></td>
       </tr>
     {{/each}}
   </tbody>
+</table>
+<h2>Devices</h2>
+<table>
+  {{#each items}}
+  <tr>
+    <td>{{this.id}}</td>
+    <td>{{this.name}}</td>
+    <td>{{this.type}}</td>
+    <td><button {{action "delItem"}}><img src="../../public/trash.svg"></button></td>
+  </tr>
+  {{/each}}
+</table>
+<h2>Addons<h2>
+<table>
+  {{#select type}}
+    <option value="1">Raspberry</option>
+    <option value="2">Microbit</option>
+    <option value="3">Arduno</option>
+    {{/select}}
+     {{#each addons}}
+     <tr>
+      <td>{{this.id}}</td>
+      <td>{{this.name}}</td>
+      <td>{{this.type}}</td>
+      <td><button {{action "deladdon"}}><img src="../../public/trash.svg"></button></td>
+
+     </tr>
+     {{/each}}
 </table>

@@ -111,7 +111,7 @@ model RequestedExtension {
 // Each user
 model User {
   id            Int       @id @default(autoincrement())
-  name          String // Username
+  username      String // Username
   full_name     String
   active        Boolean   @default(true) // Whether the user can login
   requests      Request[] // Requests the user have made

@@ -7,7 +7,8 @@
     "build": "tsc && shx cp -r src/public dist && shx cp -r src/views dist",
     "test": "echo \"Error: no test specified\" && exit 1",
     "debug": "ts-node src/main.ts",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "watch": "cross-env-shell NODE_ENV=development nodemon --exec node --trace-warnings --inspect --require ts-node/register src/main.ts"
   },
   "repository": {
     "type": "git",
@@ -38,8 +39,10 @@
     "@types/express": "^4.17.17",
     "@types/express-session": "^1.17.7",
     "@types/hbs": "^4.0.1",
+    "cross-env": "^7.0.3",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "nodemon": "^2.0.22",
     "prettier": "^2.8.7",
     "prisma": "^4.12.0"
   }

@@ -1,41 +1,41 @@
 <html lang="en">
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Eksamenstrening inventory</title>
-  <link rel="stylesheet" href="style.css">
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eksamenstrening inventory</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<body>
-  <div class="sidebar">
-    <header>Forside</header>
-    <nav>
-      <ul class="navbar">
-        {{#if loggedIn}}
-        <li><a href="/profile"><i class="">Min profil</i></a></li>
-        <li><a href="/requests"><i class="">Bestillinger</i></a></li>
+  <body>
+    <div class="sidebar">
+      <header>Forside</header>
+      <nav>
+        <ul class="navbar">
+          {{#if user}}
+            <li><a href="/profile"><i class="">Min profil</i></a></li>
+            <li><a href="/requests"><i class="">Bestillinger</i></a></li>
 
-        {{#if role in ["teacher", "admin"]}}
-        <li><a href="/teacher"><i class="">Lærerside</i></a></li>
-        {{/if}}
+            {{#checkIf user.role "===" 2 "||" user.role "===" 3}}
+              <li><a href="/teacher"><i class="">Lærerside</i></a></li>
+            {{/checkIf}}
 
-        {{#if role in ["admin"]}}
-        <li><a href="/admin"><i class="">Admin</i></a></li>
-        {{/if}}
+            {{#if user.role "===" 3}}
+              <li><a href="/admin"><i class="">Admin</i></a></li>
+            {{/if}}
 
-        <li><a href="/logout"><i class="">Logg ut</i></a></li>
-        {{else}}
-        <li><a href="/login">Logg inn</a></li>
-        {{/if}}
+            <li><a href="/logout"><i class="">Logg ut</i></a></li>
+          {{else}}
+            <li><a href="/login">Logg inn</a></li>
+          {{/if}}
 
-      </ul>
-    </nav>
-  </div>
+        </ul>
+      </nav>
+    </div>
 
-  <main>{{{body}}}</main>
+    <main>{{{body}}}</main>
 
-</body>
+  </body>
 
 </html>
