@@ -4,51 +4,90 @@
 <h2>Users</h2>
 <table>
   <thead>
-    <tr>User</tr>
-    <tr>Role</tr>
-    <tr>Delete</tr>
+    <tr>
+      <th>ID</th>
+      <th>User</th>
+      <th>Role</th>
+      <th>Actions</th>
+    </tr>
   </thead>
   <tbody>
-    {{#each User}}
+    {{#each users}}
       <tr>
-        <td>{{this.name}}</td>
-        <td><select>{{#select role}}
-              <option value="1">Disabled</option>
-              <option value="2">Student</option>
-              <option value="3">Teacher</option>
-              <option value="4">Admin</option>
-            {{/select}}
-          </select></td>
-        <td><button {{action "deluser"}}><img src="../../public/trash.svg"></button></td>
+        <form action="/admin" method="post">
+          <td><input name="user_id" type="number" class="user_id_input" value="{{id}}" required readonly /></td>
+          <td><input name="username" type="text" value="{{username}}" required /></td>
+          <td>
+            <select name="role_id" required>
+              {{#each ../roles}}
+                <option value="{{id}}" {{#if (eq id ../role_id)}}selected{{/if}}>
+                {{id}} - {{name}}
+                </option>
+              {{/each}}
+            </select>
+          </td>
+          <td>
+            <button type="reset"><img src="/img/reset.svg" /></button>
+            <button type="submit"><img src="/img/save.svg" /></button>
+            <input type="text" style="display: none;" name="action" value="edit_user">
+          </td>
+        </form>
       </tr>
     {{/each}}
   </tbody>
 </table>
 <h2>Devices</h2>
 <table>
-  {{#each items}}
-  <tr>
-    <td>{{this.id}}</td>
-    <td>{{this.name}}</td>
-    <td>{{this.type}}</td>
-    <td><button {{action "delItem"}}><img src="../../public/trash.svg"></button></td>
-  </tr>
-  {{/each}}
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Item name</th>
+      <th>Item type</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+      {{#each items}}
+      <tr>
+        <form action="/admin" method="post">
+          <td><input name="user_id" type="number" class="user_id_input" value="{{id}}" required readonly /></td>
+          <td><input name="username" type="text" value="{{name}}" required /></td>
+          <td>
+            <select name="role_id" required>
+              {{#each ../itemTypes}}
+                <option value="{{id}}" {{#if (eq id ../type_id)}}selected{{/if}}>
+                  {{id}} - {{name}}
+                </option>
+              {{/each}}
+            </select>
+          </td>
+          <td>
+            <button type="reset"><img src="/img/reset.svg" /></button>
+            <button type="submit"><img src="/img/save.svg" /></button>
+            <input type="text" style="display: none;" name="action" value="edit_user">
+          </td>
+        </form>
+      </tr>
+    {{/each}}
 </table>
-<h2>Addons<h2>
+<h2>Addons</h2>
 <table>
-  {{#select type}}
+  {{!-- {{#select type}}
     <option value="1">Raspberry</option>
     <option value="2">Microbit</option>
     <option value="3">Arduno</option>
-    {{/select}}
-     {{#each addons}}
-     <tr>
+  {{/select}} --}}
+  {{#each addons}}
+    <tr>
       <td>{{this.id}}</td>
       <td>{{this.name}}</td>
       <td>{{this.type}}</td>
-      <td><button {{action "deladdon"}}><img src="../../public/trash.svg"></button></td>
+      <td><button {{action "deladdon"}}><img
+            src="../../public/trash.svg"
+          /></button></td>
 
-     </tr>
-     {{/each}}
+    </tr>
+  {{/each}}
+
+<button disabled>button</button>
+
 </table>

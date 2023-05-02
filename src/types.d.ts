@@ -4,6 +4,7 @@ import { Request } from "express";
 export type LoginRequest = {
   username: string;
   password: string;
+  next?: string;
 };
 
 export type ReqWithBody<Body> = Request<Record<string, string>, any, Body>;

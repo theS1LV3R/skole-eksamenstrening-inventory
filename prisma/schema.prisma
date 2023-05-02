@@ -123,7 +123,10 @@ model User {
   @@index([role_id])
   @@index([active])
 }
-
+// 0 = disabled
+// 1 = Student
+// 2 = Teacher
+// 3 = Admin
 model UserRole {
   id    Int    @id @default(autoincrement())
   name  String

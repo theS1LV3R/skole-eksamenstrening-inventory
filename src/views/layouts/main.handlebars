@@ -5,23 +5,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Eksamenstrening inventory</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/style.css" />
   </head>
 
   <body>
     <div class="sidebar">
-      <header>Forside</header>
+      <header><a href="/">Forside</a></header>
       <nav>
         <ul class="navbar">
           {{#if user}}
             <li><a href="/profile"><i class="">Min profil</i></a></li>
             <li><a href="/requests"><i class="">Bestillinger</i></a></li>
 
-            {{#checkIf user.role "===" 2 "||" user.role "===" 3}}
+            {{#if (or (eq user.role_id 2) (eq user.role_id 3))}}
               <li><a href="/teacher"><i class="">Lærerside</i></a></li>
-            {{/checkIf}}
+            {{/if}}
 
-            {{#if user.role "===" 3}}
+            {{#if (eq user.role_id 3)}}
               <li><a href="/admin"><i class="">Admin</i></a></li>
             {{/if}}
 

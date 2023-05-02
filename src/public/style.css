@@ -142,13 +142,62 @@ input[type="submit"]:hover {
     padding: 0 4px;
 }
 
-.column {
-    flex: 75%;
-    padding: 0 300px;
+
+.signup-box{
+    width: 360px;
+    height: 620px;
+    margin: auto;
+    background-color: #e9f4fb;
+    border-radius: 3px;
 }
 
-.column img {
+h1{
+    text-align: center;
+    padding-top: 15px;
+}
+
+form{
+    width: 300px;
+    margin-left: 20px;
+}
+
+form label{
+    display: flex;
     margin-top: 20px;
-    vertical-align: right;
-    width: 400px;
+    font-size: 18px;
+}
+
+form input{
+    width: 100%;
+    padding: 7px;
+    border: none;
+    border: 1px solid gray;
+    border-radius: 6px;
+}
+
+input[type="button"]{
+    width: 320px;
+    height: 35px;
+    margin-top: 20px;
+    border: none;
+    background-color: #2691d9;
+    color: white;
+    font-size: 18px;
+    
+}
+
+p{
+    text-align: center;   
+    padding-top: 20px;
+    font-size: 15px; 
+}
+
+.para-2{
+    text-align: center;
+    color: rgb(17, 14, 14);
+    font-size: 18px;
+    margin-top: -10px;
+}
+button[disabled] {
+    cursor: not-allowed;
 }

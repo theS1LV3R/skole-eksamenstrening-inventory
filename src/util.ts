@@ -1,17 +1,27 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, UserRole } from "@prisma/client";
 import { NextFunction, Request, Response } from "express";
 
-export async function requireLogin(
+export const requireRoleId =
+  (role_id: UserRole["id"]) =>
+  async (req: Request, res: Response, next: NextFunction) => {
+    if (res.locals.user!.role_id < role_id) {
+      return res.redirect("/");
+    }
+
+    return next();
+  };
+
+export const requireLogin = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<any> {
+): Promise<any> => {
   if (!req.session.user_id) {
     return res.redirect(`/login?next=${encodeURI(req.url)}`);
   }
 
-  return next();
-}
+  next();
+};
 
 export const everyPageSessionData = (prisma: PrismaClient) =>
   async function (
@@ -25,7 +35,6 @@ export const everyPageSessionData = (prisma: PrismaClient) =>
       where: { id: req.session.user_id },
     });
 
-    console.log(user)
-
-    // res.locals.user = user;
+    res.locals.user = user;
+    return next();
   };

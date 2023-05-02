@@ -5,10 +5,10 @@ import session from "express-session";
 import api from "./api";
 import views from "./views";
 import dotenv from "dotenv";
-import { engine } from "express-handlebars";
+import { engine, ExpressHandlebars } from "express-handlebars";
 import { PrismaClient } from "@prisma/client";
 import bodyParser from "body-parser";
-import { handlebars } from "hbs";
+import { HelperDelegate } from "handlebars";
 import { everyPageSessionData } from "./util";
 
 dotenv.config();
@@ -18,6 +18,23 @@ const app = express();
 async function main() {
   await prisma.$connect();
 
+  const handlebarsConfig: ExpressHandlebars["config"] = {
+    helpers: {
+      eq: (v1, v2) => v1 === v2,
+      ne: (v1, v2) => v1 !== v2,
+      lt: (v1, v2) => v1 < v2,
+      gt: (v1, v2) => v1 > v2,
+      lte: (v1, v2) => v1 <= v2,
+      gte: (v1, v2) => v1 >= v2,
+      and() {
+        return Array.prototype.every.call(arguments, Boolean);
+      },
+      or() {
+        return Array.prototype.slice.call(arguments, 0, -1).some(Boolean);
+      },
+    } satisfies Record<string, HelperDelegate>,
+  };
+
   app.use(
     session({
       secret: process.env.SESSION_SECRET ?? "secret",
@@ -26,45 +43,7 @@ async function main() {
     })
   );
 
-  handlebars.registerHelper("checkIf", function (v1, operator, v2, options) {
-    switch (operator) {
-      case "==":
-        // @ts-ignore
-        return v1 == v2 ? options.fn(this) : options.inverse(this);
-      case "===":
-        // @ts-ignore
-        return v1 === v2 ? options.fn(this) : options.inverse(this);
-      case "!=":
-        // @ts-ignore
-        return v1 != v2 ? options.fn(this) : options.inverse(this);
-      case "!==":
-        // @ts-ignore
-        return v1 !== v2 ? options.fn(this) : options.inverse(this);
-      case "<":
-        // @ts-ignore
-        return v1 < v2 ? options.fn(this) : options.inverse(this);
-      case "<=":
-        // @ts-ignore
-        return v1 <= v2 ? options.fn(this) : options.inverse(this);
-      case ">":
-        // @ts-ignore
-        return v1 > v2 ? options.fn(this) : options.inverse(this);
-      case ">=":
-        // @ts-ignore
-        return v1 >= v2 ? options.fn(this) : options.inverse(this);
-      case "&&":
-        // @ts-ignore
-        return v1 && v2 ? options.fn(this) : options.inverse(this);
-      case "||":
-        // @ts-ignore
-        return v1 || v2 ? options.fn(this) : options.inverse(this);
-      default:
-        // @ts-ignore
-        return options.inverse(this);
-    }
-  });
-
-  app.engine("handlebars", engine());
+  app.engine("handlebars", engine(handlebarsConfig));
   app.set("view engine", "handlebars");
   app.set("views", path.resolve(__dirname, "views"));
   app.use(express.static(path.resolve(__dirname, "public")));
