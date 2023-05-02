@@ -1,6 +1,11 @@
 import { PrismaClient, ItemType } from "@prisma/client";
 import { Request, Response, Router } from "express";
-import { LoginRequest, RegisterRequest, ReqWithBody } from "./types";
+import {
+  AdminRequest,
+  LoginRequest,
+  RegisterRequest,
+  ReqWithBody,
+} from "./types";
 import { compare, compareSync, hash } from "bcrypt";
 import { hashSync } from "bcrypt";
 import { genSaltSync } from "bcrypt";
@@ -120,8 +125,47 @@ export default function views(prisma: PrismaClient): Router {
       const roles = await prisma.userRole.findMany();
       const items = await prisma.item.findMany();
       const itemTypes = await prisma.itemType.findMany();
+      const extensions = await prisma.itemExtensions.findMany();
+      const extensionTypes = await prisma.itemExtensionTypes.findMany();
 
-      return res.render("AdminPage", { users, roles, items, itemTypes });
+      return res.render("AdminPage", {
+        users,
+        roles,
+        items,
+        itemTypes,
+        extensions,
+        extensionTypes,
+      });
+    }
+  );
+
+  router.post(
+    "/admin",
+    requireLogin,
+    requireRoleId(3),
+    async (req: ReqWithBody<AdminRequest>, res) => {
+      return res.redirect("/admin");
+
+      //@ts-expect-error
+      const body = req.body;
+
+      switch (body.action) {
+        case "edit_user": {
+          break;
+        }
+        case "edit_item": {
+          break;
+        }
+        case "create_item": {
+          break;
+        }
+        case "edit_extension": {
+          break;
+        }
+        case "create_extension": {
+          break;
+        }
+      }
     }
   );
 
