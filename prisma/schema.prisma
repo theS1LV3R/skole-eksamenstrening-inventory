@@ -111,7 +111,7 @@ model RequestedExtension {
 // Each user
 model User {
   id            Int       @id @default(autoincrement())
-  name          String // Username
+  username      String // Username
   full_name     String
   active        Boolean   @default(true) // Whether the user can login
   requests      Request[] // Requests the user have made
@@ -123,7 +123,10 @@ model User {
   @@index([role_id])
   @@index([active])
 }
-
+// 0 = disabled
+// 1 = Student
+// 2 = Teacher
+// 3 = Admin
 model UserRole {
   id    Int    @id @default(autoincrement())
   name  String

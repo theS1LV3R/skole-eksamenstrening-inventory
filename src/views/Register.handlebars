@@ -1,0 +1,37 @@
+{{#if firstUser}}
+  <div class="first-user notice">
+    <h1>Notice!</h1>
+    <p>You are the first user and will be made the administrator</p>
+  </div>
+{{/if}}
+
+{{#if userExists}}
+  <div class="first-user error">
+    <h1>Error!</h1>
+    <p>Username already exists</p>
+  </div>
+{{/if}}
+    <div class="signup-box">
+        <center><img src="pavlovaIconWhite.png" height="8%" /></center>
+        <h1>Sign Up bitch</h1>
+        <form method="post"> 
+            <label for="username">Username</label>
+            <input type="text" name="username" placeholder="Username" id="username" />
+
+            <label for="fullname">Full Name</label>
+            <input type="text" name="fullname" placeholder="fullname" id="fullname" />
+
+            <label for="password">Password</label>
+            <input type="password" name="password" placeholder="Password" id="password"/>
+
+            <label for="reenter-password">Confirm password</label>
+            <input type="password" placeholder="Re-enter-pissword" id="reenter-password"/>
+
+            <input type="button" value="Submit">
+           
+        </form>
+    </div>
+    <p class="para-2">Har du allerde en bruker? <a href="#">Logg inn her</a></p>
+    
+
+ 

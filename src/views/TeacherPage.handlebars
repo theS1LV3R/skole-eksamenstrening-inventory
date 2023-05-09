@@ -1,0 +1,10 @@
+<h1>Lærersiden</h1>
+<table>
+{{#each user}}
+  <tr>
+    {{#if (eq user.role_id 3)}}
+      <td>{{this.name}}</td>
+    {{/if}}
+  </tr>
+{{/each}}
+</table>

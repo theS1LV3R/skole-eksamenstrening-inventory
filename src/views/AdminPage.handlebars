@@ -1,0 +1,150 @@
+<div>
+  <H1>Admin site</H1>
+</div>
+<h2>Users</h2>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>User</th>
+      <th>Role</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each users}}
+    <tr>
+      <form action="/admin" method="post">
+        <td><input name="user_id" type="number" class="user_id_input" value="{{id}}" required readonly /></td>
+        <td><input name="username" type="text" value="{{username}}" required /></td>
+        <td>
+          <select name="role_id" required>
+            {{#each ../roles}}
+            <option value="{{id}}" {{#if (eq id ../role_id)}}selected{{/if}}>
+              {{id}} - {{name}}
+            </option>
+            {{/each}}
+          </select>
+        </td>
+        <td>
+          <button type="reset"><img src="/img/reset.svg" /></button>
+          <button type="submit"><img src="/img/save.svg" /></button>
+          <input type="text" style="display: none;" name="action" value="edit_user">
+        </td>
+      </form>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+
+
+<h2>Devices</h2>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Item name</th>
+      <th>Item type</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  {{#each items}}
+  <tr>
+    <form action="/admin" method="post">
+      <td><input name="item_id" type="number" value="{{id}}" required readonly /></td>
+      <td><input name="name" type="text" value="{{name}}" required /></td>
+      <td>
+        <select name="type_id" required>
+          {{#each ../itemTypes}}
+          <option value="{{id}}" {{#if (eq id ../type_id)}}selected{{/if}}>
+            {{id}} - {{name}}
+          </option>
+          {{/each}}
+        </select>
+      </td>
+      <td>
+        <button type="reset"><img src="/img/reset.svg" /></button>
+        <button type="submit"><img src="/img/save.svg" /></button>
+        <input type="text" style="display: none;" name="action" value="create_item">
+      </td>
+    </form>
+  </tr>
+  {{/each}}
+  <tr>
+    <td>Create new</td>
+  </tr>
+  <tr>
+    <form action="/admin" method="post">
+      <td><input name="item_id" value="N/A" required readonly /></td>
+      <td><input name="name" type="text" value="{{name}}" required /></td>
+      <td>
+        <select name="type_id" required>
+          {{#each itemTypes}}
+          <option value="{{id}}">{{id}} - {{name}}</option>
+          {{/each}}
+        </select>
+      </td>
+      <td>
+        <button type="reset"><img src="/img/reset.svg" /></button>
+        <button type="submit"><img src="/img/save.svg" /></button>
+        <input type="text" style="display: none;" name="action" value="create_item">
+      </td>
+    </form>
+  </tr>
+</table>
+
+
+<h2>Extensions</h2>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Item name</th>
+      <th>Item type</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  {{#each extensions}}
+  <tr>
+    <form action="/admin" method="post">
+      <td><input name="item_id" type="number" value="{{id}}" required readonly /></td>
+      <td><input name="name" type="text" value="{{name}}" required /></td>
+      <td>
+        <select name="type_id" required>
+          {{#each ../extensionTypes}}
+          <option value="{{id}}" {{#if (eq id ../type_id)}}selected{{/if}}>
+            {{id}} - {{name}}
+          </option>
+          {{/each}}
+        </select>
+      </td>
+      <td>
+        <button type="reset"><img src="/img/reset.svg" /></button>
+        <button type="submit"><img src="/img/save.svg" /></button>
+        <input type="text" style="display: none;" name="action" value="edit_extension">
+      </td>
+    </form>
+  </tr>
+  {{/each}}
+  <tr>
+    <td>Create new</td>
+  </tr>
+  <tr>
+    <form action="/admin" method="post">
+      <td><input name="item_id" value="N/A" required readonly /></td>
+      <td><input name="name" type="text" value="{{name}}" required /></td>
+      <td>
+        <select name="type_id" required>
+          {{#each extensionTypes}}
+          <option value="{{id}}">{{id}} - {{name}}</option>
+          {{/each}}
+        </select>
+      </td>
+      <td>
+        <button type="reset"><img src="/img/reset.svg" /></button>
+        <button type="submit"><img src="/img/save.svg" /></button>
+        <input type="text" style="display: none;" name="action" value="create_extension">
+      </td>
+    </form>
+  </tr>
+</table>
